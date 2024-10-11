@@ -1,0 +1,78 @@
+[gd_scene load_steps=8 format=3 uid="uid://bgxg50ee4ybr4"]
+
+[ext_resource type="Texture2D" uid="uid://xry4g22px2gt" path="res://assets/sprites/tank_body.png" id="1_vxkuy"]
+[ext_resource type="PackedScene" uid="uid://cfo6cwfavr8e6" path="res://scenes/weapon.tscn" id="2_2glig"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dl6ep"]
+size = Vector2(26, 24)
+
+[sub_resource type="Animation" id="Animation_xwh71"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_3mfdu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_se6al"]
+resource_name = "move"
+length = 0.2
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_flfxu"]
+_data = {
+"RESET": SubResource("Animation_3mfdu"),
+"idle": SubResource("Animation_xwh71"),
+"move": SubResource("Animation_se6al")
+}
+
+[node name="Tank" type="CharacterBody2D"]
+
+[node name="BodySprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_vxkuy")
+hframes = 2
+
+[node name="Weapon" parent="." instance=ExtResource("2_2glig")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon"]
+shape = SubResource("RectangleShape2D_dl6ep")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_flfxu")
+}
